@@ -6,7 +6,7 @@
 /*   By: mnassi <mnassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 14:10:33 by mnassi            #+#    #+#             */
-/*   Updated: 2023/03/03 14:51:06 by mnassi           ###   ########.fr       */
+/*   Updated: 2023/03/20 12:22:43 by mnassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,11 @@ int	intchecker(char	**arguments)
 		i++;
 	}
 	return (1);
+}
+
+void	copythisht(char **stocking, t_list *full)
+{
+	full->time_eat = ft_atoi(stocking[3]);
+	full->time_sleep = ft_atoi(stocking[4]);
+	full->time_die = ft_atoi(stocking[2]);
 }

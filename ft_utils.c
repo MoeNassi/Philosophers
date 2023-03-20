@@ -6,7 +6,7 @@
 /*   By: mnassi <mnassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 16:51:35 by mnassi            #+#    #+#             */
-/*   Updated: 2023/03/06 09:58:41 by mnassi           ###   ########.fr       */
+/*   Updated: 2023/03/20 15:32:07 by mnassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	head->prev = new;
 }
 
-t_list	*ft_lstnew(int content)
+t_list	*ft_lstnew(int content, t_stock *l, char **stocking)
 {
 	t_list	*new;
 
@@ -42,6 +42,12 @@ t_list	*ft_lstnew(int content)
 	new->content = content;
 	new->next = new;
 	new->prev = new;
+	new->ghbiy = l;
+	new->flag = 1;
+	new->time_eat = ft_atoi(stocking[3]);
+	new->time_sleep = ft_atoi(stocking[4]);
+	new->time_die = ft_atoi(stocking[2]);
+	// printf("%d\n", new->time_die, new->time_eat, new.ti)
 	return (new);
 }
 
@@ -66,4 +72,13 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	return (c * minus);
+}
+
+void	ft_got_sleep(long long how)
+{
+	long long	stock;
+
+	stock = currenttime();
+	while (currenttime() < stock + how)
+		usleep(100);
 }
