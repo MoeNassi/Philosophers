@@ -6,7 +6,7 @@
 /*   By: mnassi <mnassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 14:10:49 by mnassi            #+#    #+#             */
-/*   Updated: 2023/03/20 15:33:10 by mnassi           ###   ########.fr       */
+/*   Updated: 2023/03/25 13:36:08 by mnassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,17 @@
 long long	currenttime(void)
 {
 	struct timeval				time;
-	long long				stockthetime;
 
 	gettimeofday(&time, NULL);
-	stockthetime = (time.tv_sec * 1000) + (time.tv_usec / 1000);
-	return (stockthetime);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
 void	printactivity(t_list *philo, char *message)
 {
+	pthread_mutex_lock(&philo->hadiankhdembiha);
 	printf("%lld %d %s\n", currenttime() - philo->ghbiy->timee, philo->content, message);
+	if (philo->flag)
+		pthread_mutex_unlock(&philo->hadiankhdembiha);
 }
 
 void	*philoeatorsleep(void *philo)
@@ -32,25 +33,25 @@ void	*philoeatorsleep(void *philo)
 	t_list			*philos;
 
 	philos = (t_list *)philo;
-	while (philos)
+	if (philos->content % 2)
+		usleep(200);
+	while (philos->flag)
 	{
 		pthread_mutex_lock(&philos->fork);
 		printactivity(philos, "has taken a fork");
 		pthread_mutex_lock(&philos->next->fork);
 		printactivity(philos, "has taken a fork");
-		printactivity(philos, "is eating");
+		pthread_mutex_lock(&philos->printactiv);
 		philos->lasttime = currenttime();
-		usleep(philos->time_eat * 1000);
-		pthread_mutex_unlock(&philos->next->fork);
+		philos->eating++;
+		pthread_mutex_unlock(&philos->printactiv);
+		printactivity(philos, "is eating");
+		ft_go_sleep(philos->ghbiy->time_eat);
 		pthread_mutex_unlock(&philos->fork);
+		pthread_mutex_unlock(&philos->next->fork);
 		printactivity(philos, "is sleeping");
-		usleep(philos->time_sleep * 1000);
+		ft_go_sleep(philos->ghbiy->time_sleep);
 		printactivity(philos, "is thinking");
-		if ((currenttime() - philos->lasttime) > philos->time_die)
-		{
-			printactivity(philos, "died");
-			philos->flag = 0;
-		}
 	}
 	return (NULL);
 }
@@ -70,23 +71,35 @@ int main(int ac, char **av)
 		if (intchecker(av) && numberofphilo(av) && abovesixteen(av))
 		{
 			while (i <= stock)
-				ft_lstadd_back(&philoso, ft_lstnew(i++, &all, av));
-			pthread_mutex_init(&philoso->fork, NULL);
-			head = philoso;
+				ft_lstadd_back(&philoso, ft_lstnew(i++, &all));
+			copythisht(av, philoso);
 			all.timee = currenttime();
+			head = philoso;
 			while (philoso)
 			{
-				if (philoso->content % 2)
-					usleep(100);
-				philoso->lasttime = currenttime();
+				head->lasttime = currenttime();
 				if (pthread_create(&head->hawahed, NULL, &philoeatorsleep, head) != 0)
 					return (printf("%s\n", "Error"));
 				pthread_detach(head->hawahed);
 				head = head->next;
-				if (head == philoso || philoso->flag == 0)
+				if (head == philoso)
 					break ;
 			}
-			while(philoso->flag);
+			while(1)
+			{
+				pthread_mutex_lock(&philoso->printactiv);
+				// if (philoso->eating  philoso->ghbiy->stop)
+				// 	break ;
+				if ((currenttime() - philoso->lasttime) > philoso->ghbiy->time_die)
+				{
+					printactivity(philoso, "died");
+					philoso->flag = 0;
+					break ;
+				}
+				pthread_mutex_unlock(&philoso->printactiv);				
+				philoso = philoso->next;
+			}
+			pthread_mutex_unlock(&philoso->printactiv);				
 		}
 		else
 			return (printf("%s\n", "Error"));
