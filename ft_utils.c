@@ -6,7 +6,7 @@
 /*   By: mnassi <mnassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 16:51:35 by mnassi            #+#    #+#             */
-/*   Updated: 2023/03/25 17:07:49 by mnassi           ###   ########.fr       */
+/*   Updated: 2023/03/25 17:13:53 by mnassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void		ft_go_sleep(long long how)
 
 	stock = currenttime();
 	while (currenttime() < stock + how)
-		usleep(100);
+		usleep(400);
 }
 int	countingnb(t_list *philoso)
 {
