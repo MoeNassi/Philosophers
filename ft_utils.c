@@ -6,7 +6,7 @@
 /*   By: mnassi <mnassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 16:51:35 by mnassi            #+#    #+#             */
-/*   Updated: 2023/03/25 13:36:16 by mnassi           ###   ########.fr       */
+/*   Updated: 2023/03/25 17:07:49 by mnassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_list	*ft_lstnew(int content, t_stock *l)
 	new->prev = new;
 	new->ghbiy = l;
 	new->flag = 1;
-	new->eating = -1;
+	new->eating = 0;
 	return (new);
 }
 
@@ -81,4 +81,15 @@ void		ft_go_sleep(long long how)
 	stock = currenttime();
 	while (currenttime() < stock + how)
 		usleep(100);
+}
+int	countingnb(t_list *philoso)
+{
+	if (philoso->eating > philoso->ghbiy->stop)
+		philoso->ghbiy->philo_nb -= 1;
+	if (!philoso->ghbiy->philo_nb)
+	{
+		philoso->flag = 0;
+		return (1);
+	}
+	return (0);
 }

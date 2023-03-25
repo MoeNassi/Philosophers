@@ -6,7 +6,7 @@
 /*   By: mnassi <mnassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 13:38:27 by mnassi            #+#    #+#             */
-/*   Updated: 2023/03/25 13:35:58 by mnassi           ###   ########.fr       */
+/*   Updated: 2023/03/25 15:45:38 by mnassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct	l_stock
 	long long		time_eat;
 	long long		time_sleep;
 	long long		time_die;
+	long long		philo_nb;
 	long long		stop;
 	struct l_list	*head;
 }				t_stock;
@@ -53,5 +54,6 @@ t_list		*ft_lstnew(int content, t_stock *l);
 void		copythisht(char **stocking, t_list *full);
 long long	currenttime(void);
 void		ft_go_sleep(long long how);
+int			countingnb(t_list *philoso);
 
 #endif

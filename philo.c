@@ -6,7 +6,7 @@
 /*   By: mnassi <mnassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 14:10:49 by mnassi            #+#    #+#             */
-/*   Updated: 2023/03/25 13:36:08 by mnassi           ###   ########.fr       */
+/*   Updated: 2023/03/25 17:07:57 by mnassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void	*philoeatorsleep(void *philo)
 		pthread_mutex_lock(&philos->printactiv);
 		philos->lasttime = currenttime();
 		philos->eating++;
-		pthread_mutex_unlock(&philos->printactiv);
 		printactivity(philos, "is eating");
+		pthread_mutex_unlock(&philos->printactiv);
 		ft_go_sleep(philos->ghbiy->time_eat);
 		pthread_mutex_unlock(&philos->fork);
 		pthread_mutex_unlock(&philos->next->fork);
@@ -56,40 +56,55 @@ void	*philoeatorsleep(void *philo)
 	return (NULL);
 }
 
+int		ft_allem(t_list *philo)
+{
+	t_list	*head;
+
+	head = philo;
+	while (philo)
+	{
+		head->lasttime = currenttime();
+		if (pthread_create(&head->hawahed, NULL, &philoeatorsleep, head) != 0)
+			return (printf("%s\n", "Error"));
+		pthread_detach(head->hawahed);
+		head = head->next;
+		if (head == philo)
+			break ;
+	}
+	return (0);
+}
+
 int main(int ac, char **av)
 {
-	int			i;
 	t_list		*philoso;
-	t_list		*head;
 	t_stock		all;
-	int			stock;
+	int		stock;
+	int		i;
 
 	i = 1;
-	stock = ft_atoi(av[1]);
 	if (ac - 1 > 3 && ac - 1 < 6)
 	{
 		if (intchecker(av) && numberofphilo(av) && abovesixteen(av))
 		{
+			stock = ft_atoi(av[1]);
 			while (i <= stock)
 				ft_lstadd_back(&philoso, ft_lstnew(i++, &all));
 			copythisht(av, philoso);
 			all.timee = currenttime();
-			head = philoso;
-			while (philoso)
-			{
-				head->lasttime = currenttime();
-				if (pthread_create(&head->hawahed, NULL, &philoeatorsleep, head) != 0)
-					return (printf("%s\n", "Error"));
-				pthread_detach(head->hawahed);
-				head = head->next;
-				if (head == philoso)
-					break ;
-			}
+			ft_allem(philoso);
 			while(1)
 			{
 				pthread_mutex_lock(&philoso->printactiv);
-				// if (philoso->eating  philoso->ghbiy->stop)
-				// 	break ;
+				if (philoso->ghbiy->stop)
+				{
+					if (philoso->eating > philoso->ghbiy->stop)
+						philoso->ghbiy->philo_nb -= 1;
+					if (!philoso->ghbiy->philo_nb)
+					{
+						philoso->flag = 0;
+						return (0);
+					}
+				}
 				if ((currenttime() - philoso->lasttime) > philoso->ghbiy->time_die)
 				{
 					printactivity(philoso, "died");

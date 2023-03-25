@@ -6,7 +6,7 @@
 /*   By: mnassi <mnassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 14:10:33 by mnassi            #+#    #+#             */
-/*   Updated: 2023/03/24 14:47:43 by mnassi           ###   ########.fr       */
+/*   Updated: 2023/03/25 14:39:04 by mnassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	intchecker(char	**arguments)
 
 void	copythisht(char **stocking, t_list *full)
 {
+	full->ghbiy->philo_nb = ft_atoi(stocking[1]);
 	full->ghbiy->time_die = ft_atoi(stocking[2]);
 	full->ghbiy->time_eat = ft_atoi(stocking[3]);
 	full->ghbiy->time_sleep = ft_atoi(stocking[4]);
