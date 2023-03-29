@@ -6,7 +6,7 @@
 /*   By: mnassi <mnassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 16:51:35 by mnassi            #+#    #+#             */
-/*   Updated: 2023/03/25 17:13:53 by mnassi           ###   ########.fr       */
+/*   Updated: 2023/03/27 14:09:01 by mnassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,12 @@ t_list	*ft_lstnew(int content, t_stock *l)
 
 	new = malloc(sizeof(t_list));
 	new->content = content;
-	pthread_mutex_init(&new->fork, NULL);
-	pthread_mutex_init(&new->printactiv, NULL);
-	pthread_mutex_init(&new->hadiankhdembiha, NULL);
+	if (pthread_mutex_init(&new->fork, NULL) != 0)
+		return (printf("%s\n", "Error"), NULL);
+	if (pthread_mutex_init(&new->printactiv, NULL) != 0)
+		return (printf("%s\n", "Error"), NULL);
+	if (pthread_mutex_init(&new->hadiankhdembiha, NULL) != 0)
+		return (printf("%s\n", "Error"), NULL);
 	new->next = new;
 	new->prev = new;
 	new->ghbiy = l;
@@ -74,14 +77,15 @@ int	ft_atoi(const char *str)
 	return (c * minus);
 }
 
-void		ft_go_sleep(long long how)
+void	ft_go_sleep(long long how)
 {
 	long long	stock;
 
 	stock = currenttime();
 	while (currenttime() < stock + how)
-		usleep(400);
+		usleep(250);
 }
+
 int	countingnb(t_list *philoso)
 {
 	if (philoso->eating > philoso->ghbiy->stop)

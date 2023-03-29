@@ -6,7 +6,7 @@
 /*   By: mnassi <mnassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 14:10:49 by mnassi            #+#    #+#             */
-/*   Updated: 2023/03/25 17:12:32 by mnassi           ###   ########.fr       */
+/*   Updated: 2023/03/27 14:17:33 by mnassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ long long	currenttime(void)
 void	printactivity(t_list *philo, char *message)
 {
 	pthread_mutex_lock(&philo->hadiankhdembiha);
-	printf("%lld %d %s\n", currenttime() - philo->ghbiy->timee, philo->content, message);
+	printf("%lld %d %s\n", currenttime()
+		- philo->ghbiy->timee, philo->content, message);
 	if (philo->flag)
 		pthread_mutex_unlock(&philo->hadiankhdembiha);
 }
@@ -56,7 +57,7 @@ void	*philoeatorsleep(void *philo)
 	return (NULL);
 }
 
-int		ft_allem(t_list *philo)
+int	ft_allem(t_list *philo)
 {
 	t_list	*head;
 
@@ -74,12 +75,12 @@ int		ft_allem(t_list *philo)
 	return (0);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_list		*philoso;
 	t_stock		all;
-	int		stock;
-	int		i;
+	int			stock;
+	int			i;
 
 	i = 1;
 	if (ac - 1 > 3 && ac - 1 < 6)
@@ -92,29 +93,9 @@ int main(int ac, char **av)
 			copythisht(av, philoso);
 			all.timee = currenttime();
 			ft_allem(philoso);
-			while(1)
-			{
-				pthread_mutex_lock(&philoso->printactiv);
-				if (philoso->ghbiy->stop)
-				{
-					if (philoso->eating > philoso->ghbiy->stop)
-						philoso->ghbiy->philo_nb -= 1;
-					if (!philoso->ghbiy->philo_nb)
-					{
-						philoso->flag = 0;
-						return (0);
-					}
-				}
-				if ((currenttime() - philoso->lasttime) > philoso->ghbiy->time_die)
-				{
-					printactivity(philoso, "died");
-					philoso->flag = 0;
-					break ;
-				}
-				pthread_mutex_unlock(&philoso->printactiv);				
-				philoso = philoso->next;
-			}
-			pthread_mutex_unlock(&philoso->printactiv);				
+			if (!ft_onewhile(philoso))
+				return (0);
+			pthread_mutex_unlock(&philoso->printactiv);
 		}
 		else
 			return (printf("%s\n", "Error"));

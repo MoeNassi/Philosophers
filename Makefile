@@ -1,9 +1,8 @@
 NAME = philo
-BNAME = philo_bonus
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=thread -g
+CFLAGS = -Wall -Wextra -Werror
 HEAD = philo.h
 cc = CC
-SRC = philo.c argvchecker.c ft_utils.c
+SRC = philo.c argvchecker.c ft_utils.c ft_onewhile.c
 
 all : $(NAME)
 
@@ -14,7 +13,6 @@ clean :
 	rm -rf $(NAME)
 
 fclean : clean
-	rm -rf $(BNAME)
 
 re : fclean all
 

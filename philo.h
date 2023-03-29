@@ -6,12 +6,12 @@
 /*   By: mnassi <mnassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 13:38:27 by mnassi            #+#    #+#             */
-/*   Updated: 2023/03/25 15:45:38 by mnassi           ###   ########.fr       */
+/*   Updated: 2023/03/27 11:27:58 by mnassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef PHILO_H
-#define PHILO_H
+#ifndef PHILO_H
+# define PHILO_H
 
 # include <unistd.h>
 # include <pthread.h>
@@ -19,7 +19,7 @@
 # include <stdlib.h>
 # include <sys/time.h>
 
-typedef struct	l_stock
+typedef struct l_stock
 {
 	size_t			timee;
 	long long		time_eat;
@@ -30,7 +30,7 @@ typedef struct	l_stock
 	struct l_list	*head;
 }				t_stock;
 
-typedef struct	l_list
+typedef struct l_list
 {
 	struct l_list	*next;
 	struct l_list	*prev;
@@ -55,5 +55,7 @@ void		copythisht(char **stocking, t_list *full);
 long long	currenttime(void);
 void		ft_go_sleep(long long how);
 int			countingnb(t_list *philoso);
+int			ft_onewhile(t_list *philoso);
+void		printactivity(t_list *philo, char *message);
 
 #endif
